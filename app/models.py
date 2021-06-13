@@ -1,13 +1,13 @@
 from werkzeug.security import generate_password_hash,check_password_hash
 from . import db
 from flask_login import UserMixin
-from . import login_manager 
+""" from . import login_manager  """
 from datetime import datetime 
 
-@login_manager.user_loader
+""" @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
+ """
 
 
 class Pitch(db.Model):
@@ -23,7 +23,7 @@ class Pitch(db.Model):
     date_posted=db.Column(db.DateTime,default=datetime.utcnow)
     votes_id=db.Column(db.Integer,db.ForeignKey("votes.id"))
     posted_by=db.Column(db.Integer,db.ForeignKey("users.id"))
-    users=db.relationship('User',backref="user",lazy = "dynamic")
+    users=db.relationship('User',backref="users",lazy = "dynamic")
     pitches = db.relationship('PitchComments',lazy = "dynamic")
 
 
@@ -40,7 +40,7 @@ class PitchComments(db.Model):
     title=db.Column(db.String(255))
     content=db.Column(db.String(255))
     user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
-    date_posted=db.Column(db.DateTime,dafault=datetime.utcnow)
+    date_posted=db.Column(db.DateTime,default=datetime.utcnow)
 
     def save_pitch(self):
         db.session.add(self)
@@ -107,7 +107,7 @@ class Roles(db.Model):
     '''
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(30))
-    users = db.relationship('Users',backref='users',lazy= "dynamic")
+    users = db.relationship('User',backref='user',lazy= "dynamic")
 
 class PhotoProfile(db.Model):
     '''
