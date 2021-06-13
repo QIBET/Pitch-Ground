@@ -4,6 +4,10 @@ from flask_login import UserMixin
 from . import login_manager 
 from datetime import datetime 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 
 class Pitch(db.Model):
@@ -58,9 +62,11 @@ class Votes(db.Model):
     user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
     pitches=db.relationship('Pitch',backref='pitches',lazy="dynamic")  
 
+    
 
 
-class User(db.Model):
+
+class User(UserMixin,db.Model):
     '''
     models that defines properties of user class
     '''
