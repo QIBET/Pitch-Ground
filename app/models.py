@@ -62,7 +62,7 @@ class Votes(db.Model):
 
 class User(db.Model):
     '''
-    models that dfeines properties of user class
+    models that defines properties of user class
     '''
     __tablename__="users"
 
@@ -78,7 +78,22 @@ class User(db.Model):
     role_id=db.Column(db.Integer,db.ForeignKey("roles.id"))
     password_hash=db.Column(db.String(255)) 
     
-
+    @property
+    def password(self):
+        raise ArithmeticError('You cannnot read the password attribute')
+    @password.setter
+    def password(self,password):
+        self.password_hash = generate_password_hash(password)
+    
+    def verify_password(self,password):
+        return check_password_hash(self.password_hash,password)
+     
+    def save_user(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def __repr__(self):
+        return f'User {self.username}'
 
 class Roles(db.Model):
     '''
