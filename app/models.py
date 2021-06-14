@@ -64,8 +64,8 @@ class Upvote(db.Model):
 
     id=db.Column(db.Integer,primary_key=True)
     upvote=db.Column(db.Integer,default=1)
-    pitch_id = db.column(db.Integer,db.ForeignKey('pitches.id'))
-    user_id = db.column(db.Integer, db.Foreignkey('users.id'))
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
 
     def save_upvotes(self):
         db.session.add(self)
@@ -94,7 +94,7 @@ class Downvote(db.Model):
     '''
     __tablename__= "downvotes"
 
-    id = db.Column(db.Integer, primary_kry=True)
+    id = db.Column(db.Integer, primary_key=True)
     downvote = db.Column(db.Integer,default=1)
     pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'))
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
@@ -149,27 +149,7 @@ class User(UserMixin,db.Model):
     def verify_password(self,password):
         return check_password_hash(self.password_hash,password)
      
-    def save_user(self):
-        db.session.add(self)
-        db.session.commit()
-    
+        
     def __repr__(self):
         return f'User {self.username}'
 
-class Roles(db.Model):
-    '''
-    defines the role of each user in the user model 
-    '''
-    id = db.Column(db.Integer,primary_key=True)
-    name = db.Column(db.String(30))
-    users = db.relationship('User',backref='user',lazy= "dynamic")
-
-class PhotoProfile(db.Model):
-    '''
-    model that defines profile photos for user account
-    '''
-    __tablename__ ="photos"
-
-    id=db.Column(db.Integer,primary_key=True)
-    pic_path=db.Column(db.String())
-    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
