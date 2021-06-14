@@ -20,7 +20,8 @@ class Pitch(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     title=db.Column(db.String(255))
     category=db.Column(db.String(255))
-    description=db.Column(db.String(255))
+    description=db.Column(db.String())
+    date_posted=db.Column(db.DateTime,default=datetime.utcnow)
     comments = db.relationship('PitchComments',backref='pitch',lazy='dynamic')
     upvotes = db.relationship('Upvote', backref = 'pitch', lazy = 'dynamic')
     downvotes = db.relationship('Downvote', backref = 'pitch', lazy = 'dynamic')
@@ -42,8 +43,7 @@ class PitchComments(db.Model):
 
     id=db.Column(db.Integer,primary_key=True)
     pitch_id=db.Column(db.Integer,db.ForeignKey("pitches.id"))
-    title=db.Column(db.String(255))
-    content=db.Column(db.String(255))
+    description=db.Column(db.String())
     user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
     date_posted=db.Column(db.DateTime,default=datetime.utcnow)
 
@@ -56,18 +56,37 @@ class PitchComments(db.Model):
         pitches = PitchComments.query.filter_by(pitch_id = id).all()
         return pitches
 
-class Votes(db.Model):
+class Upvote(db.Model):
     '''
-    model that defines properties of votes
+    model that defines properties of upvotes
     '''
-    __tablename__="votes"
+    __tablename__="upvotes"
 
     id=db.Column(db.Integer,primary_key=True)
-    vote_count=db.Column(db.Integer)
-    user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
-    pitches=db.relationship('Pitch',backref='pitches',lazy="dynamic")  
+    upvote=db.Column(db.Integer,default=1)
+    pitch_id = db.column(db.Integer,db.ForeignKey('pitches.id'))
+    user_id = db.column(db.Integer, db.Foreignkey('users_id'))
 
+    def save_upvotes(self):
+        db.session.add(self)
+        db.session.commit()
     
+    def add_upvotes(cls,id):
+        upvote_pitch = Upvote(user = current_user, pitch_id=id)
+        upvote_pitch.save_upvotes()
+
+    @classmethod
+    def get_upvotes(cls,id):
+        upvote = Upvote.query.filter_by(pitch_id=id).all()
+        return upvote   
+
+    @classmethod
+    def get_all_upvotes():
+        upvotes = Upvote.query.order_by('id').all()
+        return upvotes
+
+    def __repr__(self):
+        return f'{self.user_id}:{self.pitch_id}' 
 
 
 
