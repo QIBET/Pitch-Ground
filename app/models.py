@@ -17,16 +17,21 @@ class Pitch(db.Model):
     __tablename__='pitches' 
 
     id=db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     title=db.Column(db.String(255))
     category=db.Column(db.String(255))
-    content=db.Column(db.String(255))
-    date_posted=db.Column(db.DateTime,default=datetime.utcnow)
-    votes_id=db.Column(db.Integer,db.ForeignKey("votes.id"))
-    posted_by=db.Column(db.Integer,db.ForeignKey("users.id"))
-    users=db.relationship('User',backref="users",lazy = "dynamic")
-    pitches = db.relationship('PitchComments',lazy = "dynamic")
+    description=db.Column(db.String(255))
+    comments = db.relationship('PitchComments',backref='pitch',lazy='dynamic')
+    upvotes = db.relationship('Upvote', backref = 'pitch', lazy = 'dynamic')
+    downvotes = db.relationship('Downvote', backref = 'pitch', lazy = 'dynamic')
 
+    @classmethod
+    def get_pitches(cls, id):
+        pitches = Pitch.query.order_by(pitch_id=id).desc().all()
+        return pitches
 
+    def __repr__(self):
+        return f'Pitch {self.description}'
 
 
 class PitchComments(db.Model):
@@ -77,10 +82,10 @@ class User(UserMixin,db.Model):
     email=db.Column(db.String(),unique = True,index = True)
     password_hash=db.Column(db.String(255)) 
     pitch = db.relationship('Pitch', backref='user', lazy='dynamic')
-    comment = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
+    comment = db.relationship('PitchComments', backref = 'user', lazy = 'dynamic')
     upvotes = db.relationship('Upvote', backref = 'user', lazy = 'dynamic')
     downvotes = db.relationship('Downvote', backref = 'user', lazy = 'dynamic')
-    
+
     @property
     def password(self):
         raise ArithmeticError('You cannnot read the password attribute')
