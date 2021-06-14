@@ -42,9 +42,9 @@ class PitchComments(db.Model):
     __tablename__='comments'
 
     id=db.Column(db.Integer,primary_key=True)
-    pitch_id=db.Column(db.Integer,db.ForeignKey("pitches.id"))
+    pitch_id=db.Column(db.Integer,db.ForeignKey("pitches.id"),nullable= False)
     description=db.Column(db.String())
-    user_id=db.Column(db.Integer,db.ForeignKey("users.id"))
+    user_id=db.Column(db.Integer,db.ForeignKey("users.id"),nullable= False)
     date_posted=db.Column(db.DateTime,default=datetime.utcnow)
 
     def save_pitch(self):
@@ -65,14 +65,14 @@ class Upvote(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     upvote=db.Column(db.Integer,default=1)
     pitch_id = db.column(db.Integer,db.ForeignKey('pitches.id'))
-    user_id = db.column(db.Integer, db.Foreignkey('users_id'))
+    user_id = db.column(db.Integer, db.Foreignkey('users.id'))
 
     def save_upvotes(self):
         db.session.add(self)
         db.session.commit()
     
     def add_upvotes(cls,id):
-        upvote_pitch = Upvote(user = current_user, pitch_id=id)
+        upvote_pitch=Upvote(user=current_user, pitch_id=id)
         upvote_pitch.save_upvotes()
 
     @classmethod
@@ -87,6 +87,40 @@ class Upvote(db.Model):
 
     def __repr__(self):
         return f'{self.user_id}:{self.pitch_id}' 
+
+class Downvote(db.Model):
+    '''
+    model to define downvote instances
+    '''
+    __tablename__= "downvotes"
+
+    id = db.Column(db.Integer, primary_kry=True)
+    downvote = db.Column(db.Integer,default=1)
+    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'))
+    user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+
+    def save_downvotes(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def add_downvotes(self):
+        downvote_pitch = Downvote(user = current_user, pitch_id=id)
+        downvote_pitch.save_downvotes()
+
+    @classmethod
+    def get_downvotes(cls,id):
+        downvote = Downvote.query.filter_by(pitch_id=id).all()
+        return downvote
+
+    @classmethod
+    def get_all_downvotes(cls,pitch_id):
+        downvote = Downvote.query.order_by('id').all()
+        return downvote
+
+    def __repr__(self):
+        return f'{self.user_id}:{self.pitch_id}'
+
+
 
 
 
