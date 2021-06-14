@@ -74,15 +74,12 @@ class User(UserMixin,db.Model):
 
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(255))
-    user_bio=db.Column(db.String(255))
-    photos=db.relationship('PhotoProfile',backref ='user',lazy= "dynamic")
-    pitches=db.relationship('Pitch', backref ='pitches',lazy= "dynamic")
-    pitchcomments=db.relationship('PitchComments',backref ='pitchcomments',lazy= "dynamic")
-    pitch_id=db.Column(db.Integer,db.ForeignKey("pitches.id"))
-    votes=db.relationship('Votes',backref ='votes',lazy= "dynamic")
     email=db.Column(db.String(),unique = True,index = True)
-    role_id=db.Column(db.Integer,db.ForeignKey("roles.id"))
     password_hash=db.Column(db.String(255)) 
+    pitch = db.relationship('Pitch', backref='user', lazy='dynamic')
+    comment = db.relationship('Comment', backref = 'user', lazy = 'dynamic')
+    upvotes = db.relationship('Upvote', backref = 'user', lazy = 'dynamic')
+    downvotes = db.relationship('Downvote', backref = 'user', lazy = 'dynamic')
     
     @property
     def password(self):
