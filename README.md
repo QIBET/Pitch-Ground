@@ -7,7 +7,7 @@ Is a web application that displays pitches from different individuals. On clicki
  * Allows a user, to vote on the pitch by giving it an upvote or downvote .
  * Allows a user,  to signup to post a pitch or comment.
  * Allows a user,  to view various categories.
-![Alt text](/relative/path/to/img.jpg?raw=true "Optional Title")
+![](images/Readscreenshot.png?raw=true "Pitch~Ground")
 
 # SetUp / Installation Requirements
 ### You need to have the following
