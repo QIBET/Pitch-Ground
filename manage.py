@@ -5,7 +5,7 @@ from flask_script import Manager, Server
 
 
 #creating an app instance
-app = create_app('development')
+
 app = create_app('production')
 app=create_app('test')
 
