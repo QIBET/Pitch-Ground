@@ -13,7 +13,6 @@ click-plugins==1.1.1
 click-repl==0.2.0
 colorama==0.4.3
 dbus-python==1.2.16
-defer==1.0.6
 distlib==0.3.0
 distro==1.4.0
 distro-info===0.23ubuntu1
