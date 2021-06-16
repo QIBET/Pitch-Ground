@@ -7,8 +7,8 @@ from flask_script import Manager, Server
 #creating an app instance
 
 app = create_app('production')
-app=create_app('test')
-
+""" app=create_app('test')
+ """
 
 
 

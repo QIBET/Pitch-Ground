@@ -5,10 +5,13 @@ class Config:
     '''
     General parent class for configuration
     '''
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY=os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
-  
+    # simple mde  configurations
+    SIMPLEMDE_JS_IIFE = True
+    SIMPLEMDE_USE_CDN = True
+
    #  email configurations
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
@@ -16,9 +19,7 @@ class Config:
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
 
-    # simple mde  configurations
-    SIMPLEMDE_JS_IIFE = True
-    SIMPLEMDE_USE_CDN = True
+    
 
 class ProdConfig(Config):
     '''
@@ -43,11 +44,12 @@ class DevConfig(Config):
     Args:
         Config: General parent class for configuration
     '''
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
-
+    SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://moringa:Sotik2020*@localhost/pitchground"
+    
     DEBUG = True
+
 config_options = {
 'development':DevConfig,
 'production':ProdConfig,
-'test':TestConfig
+'test': TestConfig
 }
