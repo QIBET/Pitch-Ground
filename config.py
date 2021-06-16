@@ -43,7 +43,8 @@ class DevConfig(Config):
     Args:
         Config: General parent class for configuration
     '''
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:Sotik2020*@localhost/pitchground'
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+
     DEBUG = True
 config_options = {
 'development':DevConfig,
