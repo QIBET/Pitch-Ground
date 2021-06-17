@@ -1,4 +1,3 @@
-export SQLALCHEMY_DATABASE_URI="sqlite:////home/moringa/pitchground/app.db"
 export SECRET_KEY="Benny"
 export MAIL_USERNAME="bernard.kibet@student.moringaschool.com"
 export MAIL_PASSWORD="Sotik2020*"
