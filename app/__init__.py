@@ -25,6 +25,7 @@ def create_app(config_name):
     #creating app configurations
     app.config.from_object(config_options[config_name])
     
+
     
 
     #initializing the flask extensions
@@ -33,6 +34,7 @@ def create_app(config_name):
     login_manager.init_app(app)
     mail.init_app(app)
     simple.init_app(app)
+    
 
 
     #registering the blue print
