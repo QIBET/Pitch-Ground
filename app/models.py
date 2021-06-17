@@ -85,6 +85,9 @@ class PitchComments(db.Model):
         pitches = PitchComments.query.filter_by(pitch_id = id).all()
         return pitches
 
+    def __repr__(self):
+        return f'{self.pitch_id}:{self.pitch_id}'
+
 class Upvote(db.Model):
     '''
     model that defines properties of upvotes

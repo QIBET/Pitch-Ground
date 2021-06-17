@@ -6,6 +6,7 @@ class Config:
     General parent class for configuration
     '''
 
+    
     SECRET_KEY=os.environ.get('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
@@ -29,6 +30,7 @@ class ProdConfig(Config):
     Args:
         Config: General parent class for configuration
     '''
+    
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
@@ -49,6 +51,7 @@ class DevConfig(Config):
         Config: General parent class for configuration
     '''
     SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://moringa:Sotik2020*@localhost/pitchground"
+    
     
     DEBUG = True
 
