@@ -1,8 +1,8 @@
-from app import create_app, db
-from app.models import Downvote, Upvote, User,PitchComments,Pitch
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
 
+from app import create_app, db
+from app.models import Downvote, Pitch, PitchComments, Upvote, User
 
 #creating an app instance
 
